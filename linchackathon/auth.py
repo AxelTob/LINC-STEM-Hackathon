@@ -33,8 +33,7 @@ def init(group_token):
 		You have entered a wrong value. Make sure that the token is in the 
 		form of a string like : 
 			
-			'171beb3a-b3bc-4j76-9s89-39332218106e'
-			""")
+			'171beb3a-b3bc-4j76-9s89-39332218106e' """)
 	
 	
 	u.token = group_token
@@ -52,8 +51,7 @@ def init(group_token):
 				  
 		The token you entered is not valid. Please make sure that its spelled
 		correctly and try again. Contact someone for support if you get this 
-		more than once.
-		""")
+		more than once. """)
 	
 	print(f"""
    
@@ -68,8 +66,6 @@ def init(group_token):
 
         {url}
 	
-	Happy coding! 
-	
-	""")
+	Happy coding! """)
 
 
