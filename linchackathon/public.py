@@ -35,7 +35,8 @@ def getTickers():
 def getTickersNames():
     """
     This function returns a dataframe with all the tickers included and the names 
-    of the companies
+    of the companies. This function uses the getTickers() function and also yahoo
+    finance to fine the names of the companies.
     
     """
 
@@ -64,7 +65,8 @@ def getTickersNames():
 
 def getStock(ticker):
     """
-    This function returns a dictionary that includes bla bla
+    This function takes in one argument, which is the ticker, as a string 
+    (example : 'AAPL') and returns the current price of the stock.
 
     """
 
@@ -77,19 +79,19 @@ def getStock(ticker):
     	form of a string like : 
     		
     		'AAPL'
-    		""")
 
-#    if ticker not in getTickers():
-#        raise NameError("""
-#                The Ticker you included is incorrect.
-#                Check the Tickers available by running 'getTickers()'
-#                
-#                """)
+    		""")
+    if ticker no in u.tickers:
+        raise NameError("""
+
+                The Ticker you included is incorrect.
+                Check the Tickers available by running 'getTickers()'
+                
+                """)
 			
     gstock_url = u.url+ '/public/' + ticker 
     response = requests.get(gstock_url)
 	
-    response.status_code
     return response.json()[0]
 
 
@@ -100,7 +102,8 @@ def getStock(ticker):
 
 def getStockHistory(ticker, daysback):
     """
-    This function returns a dictionary that includes bla bla
+    This function utilizes the getStock function and returns a the history. It 
+    requires the ticker and the ammount of days in the past. 
 
     """
 
@@ -117,8 +120,9 @@ def getStockHistory(ticker, daysback):
        
     
 
-    if ticker not in getTickers():
+    if ticker not in u.tickers:
         raise NameError("""
+
                 The Ticker you included is incorrect.
                 Check the Tickers available by running 'getTickers()'
                 
@@ -128,27 +132,5 @@ def getStockHistory(ticker, daysback):
     gstock_url = u.url+ '/public/' + ticker + f'/{daysback}'
     response = requests.get(gstock_url)
 
-    response.status_code
     return response.json()['result']
-
-
-
-
-
-
-# =============================================================================
-# Getting One point data multiple ticker  # yasser function 
-# =============================================================================
-#def getMultipleStocks():
-#    """
-#    This function returns a dictionary that includes bla bla
-#
-#    """
-#
-#    gstock_url = url+ '/feed/marketTime' 
-#    response = requests.get(gstock_url)
-#
-#    response.status_code
-#    return response.json()
-
 
