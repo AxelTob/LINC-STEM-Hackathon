@@ -81,7 +81,7 @@ def getStock(ticker):
     		'AAPL'
 
     		""")
-    if ticker no in u.tickers:
+    if ticker not in u.tickers:
         raise NameError("""
 
                 The Ticker you included is incorrect.
