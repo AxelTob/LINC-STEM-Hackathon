@@ -16,22 +16,9 @@ linchackathon
 
 
 
-A package needed to participate i's Hackathon
+A package needed to participate in LINC's Hackathon
 
 
 * Free software: MIT license
 * Documentation: https://linchackathon.readthedocs.io.
 
-
-Features
---------
-
-* TODO
-
-Credits
--------
-
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
