@@ -60,7 +60,7 @@ def init(group_token):
 
     Welcome to the LINC Hackathon! Your token is now saved in the Console. 
     That means you don't need to carry that out when using the other functions
-    as long as you don't close your console or restart spyder. 
+    as long as you don't close your console. 
     
     This function is only to be used once to authenticate your token.
 

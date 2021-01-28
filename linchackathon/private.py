@@ -17,6 +17,15 @@ from . import ipaddr as u
 # =============================================================================
 
 def buyStock(symbol, amount):
+    """
+    This function allows you to buy a specific amount of shares of a certain 
+    stock. For example, buying 3 shares of AAPL. This function will be 
+    executed instantly and will succeed only if the market is open.
+
+        Args:
+            symbol: a ticker symbol or stock symbol (ex: AAPL for Apple)
+            amount: number of shares 
+    """
 
     try:
         int(amount)
@@ -39,7 +48,18 @@ def buyStock(symbol, amount):
 # =============================================================================
 	
 def sellStock(symbol, amount):
- 
+     """
+    This function allows you to sell a specific amount of shares of a certain 
+    stock you own. For example, sellinging 3 shares of AAPL. This function 
+    will be executed instantly and will succeed only if the market is open
+    and you own more or equal than the amount you sell.
+
+        Args:
+            symbol: a ticker symbol or stock symbol (ex: AAPL for Apple)
+            amount: number of shares 
+    """
+
+
     try:
         int(amount)
     except:
@@ -61,6 +81,11 @@ def sellStock(symbol, amount):
 # =============================================================================
 
 def getPortfolio():
+    """
+    This function returns a dictionary that contains the amount of shares you 
+    own from each stock.
+    """
+
 
     url_g = u.url + '/private/' + u.token + '/getPortfolio'
     response = requests.get(url_g)
@@ -73,6 +98,10 @@ def getPortfolio():
 # =============================================================================
 
 def getSaldo():
+    """
+    This function returns an integer representing your current balance
+    """
+
 
     url_g = u.url + '/private/' + u.token + '/getSaldo'
     response = requests.get(url_g)
@@ -85,6 +114,11 @@ def getSaldo():
 # =============================================================================
 
 def getHistory():
+    """
+    This function will return a dictionary that contains every historical 
+    transaction you've made whether its buying or selling.
+    """
+
 
     url_g = u.url + '/private/' + u.token + '/getHistory'
     response = requests.get(url_g)

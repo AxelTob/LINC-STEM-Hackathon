@@ -66,7 +66,10 @@ def getTickersNames():
 def getStock(ticker):
     """
     This function takes in one argument, which is the ticker, as a string 
-    (example : 'AAPL') and returns the current price of the stock.
+    and returns the current price of the stock.
+
+        Args:
+            ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
 
     """
 
@@ -104,6 +107,11 @@ def getStockHistory(ticker, daysback):
     """
     This function utilizes the getStock function and returns a the history. It 
     requires the ticker and the ammount of days in the past. 
+
+        Args:
+            ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
+            daysback : an integer specifying the number of days to scrape from
+                       in the past
 
     """
 
