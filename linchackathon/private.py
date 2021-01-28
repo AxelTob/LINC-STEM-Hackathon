@@ -48,7 +48,7 @@ def buyStock(symbol, amount):
 # =============================================================================
 	
 def sellStock(symbol, amount):
-     """
+    """
     This function allows you to sell a specific amount of shares of a certain 
     stock you own. For example, sellinging 3 shares of AAPL. This function 
     will be executed instantly and will succeed only if the market is open
