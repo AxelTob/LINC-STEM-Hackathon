@@ -7,4 +7,4 @@ Created on Sun Jan 24 19:10:18 2021
 
 url = 'http://144.91.87.145:3000'
 token = ''
-tickers = []
+tickers = ['all']

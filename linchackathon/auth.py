@@ -37,7 +37,7 @@ def init(group_token):
     
     u.token = group_token
 
-    u.tickers = getTickers()
+    u.tickers = u.tickers + getTickers()
     
     url = u.url
     
@@ -66,7 +66,7 @@ def init(group_token):
 
     You can use the link below to view the dashboard:
 
-    {url}
+    hackathon.linclund.com
     
     Happy coding!
 

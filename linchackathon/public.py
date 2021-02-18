@@ -105,8 +105,10 @@ def getStock(ticker):
 
 def getStockHistory(ticker, daysback):
     """
-    This function utilizes the getStock function and returns a the history. It 
-    requires the ticker and the ammount of days in the past. 
+    This function utilizes the getStock function and returns the history. It 
+    requires the ticker and the ammount of days in the past. You can also
+    insert 'all' in the ticker argument to get the history of all the stocks
+    instead of a specifc one.
 
         Args:
             ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
