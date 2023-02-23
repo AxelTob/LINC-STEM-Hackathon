@@ -10,11 +10,12 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0', 'requests>=2.0.0', 'pandas>=0.25.3', 'numpy>=1.18.0']
+requirements = ['Click>=7.0', 'requests>=2.0.0',
+                'pandas>=0.25.3', 'numpy>=1.18.0']
 
-setup_requirements = [ ]
+setup_requirements = []
 
-test_requirements = [ ]
+test_requirements = []
 
 setup(
     author="Yasser Mahfoud",
@@ -46,6 +47,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/YasserMahfoud/linchackathon',
-    version='0.1.3',
+    version='0.1.4',
     zip_safe=False,
 )
