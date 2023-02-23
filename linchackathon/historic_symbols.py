@@ -14,55 +14,29 @@ import pandas as pd
 import numpy as np
 from . import ipaddr as u
 
-
 # =============================================================================
 # Getting all the tickers
 # =============================================================================
 
+
 def getTickers():
     """
     This function returns a list with all the tickers.
-    
+
     """
 
-    ticker_url = u.url+'/public/tickers'
+    ticker_url = u.url+'/symbols'
     response = requests.get(ticker_url)
+    response_json = response.json()
 
-    return response.json()['tickers']
+    return response_json
 
-
-
-def getTickersNames():
-    """
-    This function returns a dataframe with all the tickers included and the names 
-    of the companies. This function uses the getTickers() function and also yahoo
-    finance to fine the names of the companies.
-    
-    """
-
-    tickers_list = getTickers()
-
-    def get_info(symbol):
-        url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(symbol)
-        result = requests.get(url).json()
-
-        for x in result['ResultSet']['Result']:
-            if x['symbol'] == symbol:
-                return x['name']
-            else:
-                return 'Unknown'
-    
-    names_list = [get_info(j) for j in tickers_list]
-    tickers_df= pd.DataFrame( data = np.array([tickers_list, names_list]).transpose(), 
-                              columns = ['Ticker', 'Company name'])
-    tickers_df.index += 1
-
-    return tickers_df
 
 # =============================================================================
 # Getting One point data One ticker
 # =============================================================================
 
+# TODO: remove this? Instead use getSecurity price and locate ticker from that dataframe
 def getStock(ticker):
     """
     This function takes in one argument, which is the ticker, as a string 
@@ -74,9 +48,17 @@ def getStock(ticker):
     """
 
     if type(ticker) == str:
-    	pass
+        pass
+
+    elif ticker not in u.tickers:
+        raise NameError("""
+
+                The Ticker you included is incorrect.
+                Check the Tickers available by running 'getTickers()'
+                
+                """)
     else:
-    	raise ValueError("""
+        raise ValueError("""
     			   
     	You have entered a wrong value. Make sure that the ticker is in the 
     	form of a string like : 
@@ -84,26 +66,44 @@ def getStock(ticker):
     		'AAPL'
 
     		""")
-    if ticker not in u.tickers:
-        raise NameError("""
 
-                The Ticker you included is incorrect.
-                Check the Tickers available by running 'getTickers()'
-                
-                """)
-			
-    gstock_url = u.url+ '/public/' + ticker 
+    gstock_url = u.url + '/public/' + ticker
     response = requests.get(gstock_url)
-	
+
     return response.json()[0]
 
+
+# =============================================================================
+# Getting One point data One ticker
+# =============================================================================
+
+
+def getSecurityPrices():
+    """
+    This function return the current prices of all stocks in a dataframe
+
+        Args:
+            ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
+
+    """
+
+    try:
+        gstock_url = u.url + '/data/stocks'
+        response = requests.get(gstock_url)
+    except Exception as e:
+        print(f"errror: {str(e)}")
+
+    response_json = response.json()
+    df = pd.DataFrame(response_json['data'])
+    df.set_index('symbol', inplace=True)
+    return df
 
 
 # =============================================================================
 # Getting Multiple point data One ticker
 # =============================================================================
 
-def getStockHistory(ticker, daysback):
+def getStockHistory(ticker=None, daysback=30):
     """
     This function utilizes the getStock function and returns the history. It 
     requires the ticker and the ammount of days in the past. You can also
@@ -117,20 +117,21 @@ def getStockHistory(ticker, daysback):
 
     """
 
-    if type(ticker) == str:
-    	pass
+    if type(ticker) == str or ticker == None:
+        pass
     else:
-    	raise ValueError("""
+        raise ValueError("""
     			   
     	You have entered a wrong value. Make sure that the ticker is in the 
     	form of a string like : 
     		
     		'AAPL'
     		""")
-       
-    
-
-    if ticker not in u.tickers:
+    if daysback < 0:
+        raise ValueError("""
+        You have entered a negative value for days back, it must be psotive.
+        """)
+    if ticker not in u.tickers and ticker != None:
         raise NameError("""
 
                 The Ticker you included is incorrect.
@@ -138,9 +139,8 @@ def getStockHistory(ticker, daysback):
                 
                 """)
 
+    gstock_url = u.url + f'/data?ticker={ticker}&days_back={daysback}'
+    body = {"api_key": u.token}
+    response = requests.get(gstock_url,  json=body)
 
-    gstock_url = u.url+ '/public/' + ticker + f'/{daysback}'
-    response = requests.get(gstock_url)
-
-    return response.json()['result']
-
+    return pd.DataFrame(response.json())

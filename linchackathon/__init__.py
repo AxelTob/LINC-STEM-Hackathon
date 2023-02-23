@@ -10,7 +10,7 @@ This package is required in order to participate in the LINC Hackathon (Lund Uni
 """
 
 from .auth import init
-from .private import buyStock, sellStock, getPortfolio, getSaldo, getHistory
-from .public import getTickers, getTickersNames, getStock, getStockHistory
-from .orders import placeOrder, deleteOrder, getOrders
+from .historic_symbols import getTickers, getStock, getStockHistory, getSecurityPrices
+from .transactions import placeBuyOrder, placeSellOrder, placeStoplossOrder, buySecurity, sellSecurity
+from .account import getOrders, getCompletedOrders, getPendingOrders, getSaldo, getPortfolio
 from .stoploss import placeStoploss, deleteStoploss, getStoplosses
