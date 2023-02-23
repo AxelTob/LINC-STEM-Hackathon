@@ -143,4 +143,4 @@ def getStockHistory(ticker=None, daysback=30):
     body = {"api_key": u.token}
     response = requests.get(gstock_url,  json=body)
 
-    return pd.DataFrame(response.json())
+    return response.json()
