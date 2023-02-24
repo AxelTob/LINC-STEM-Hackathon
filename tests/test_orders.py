@@ -72,14 +72,14 @@ class TestLinchackathon(unittest.TestCase):
         amount = 1
         result = lh.buySecurity(symbol, amount)
         result_str = result[0:6]
-        self.assertEqual(result_str["amount"], '{"amou')
+        self.assertEqual(result_str, '{"amou')
 
     def test_sellSecurity(self):
         symbol = "STOCK8"
         amount = 1
         result = lh.sellSecurity(symbol, amount)
         result_str = result[0:6]
-        self.assertEqual(result_str["amount"], '{"amou')
+        self.assertEqual(result_str, '{"amou')
 
     def test_placeSellOrder_notOwned(self):
         # SELLING STOCK WE DONT OWN TEST
