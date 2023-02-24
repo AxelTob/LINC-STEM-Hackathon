@@ -16,7 +16,7 @@ import pandas as pd
 
 class TestLinchackathon(unittest.TestCase):
     def setUp(self):
-        self.group_token = '438411b1-6eb8-4e1e-8c6a-0762a4beac5e'
+        self.group_token = 'ccc6816e-654d-4ecd-ac20-c7aba17cb0e9'
         u.token = self.group_token
         self.expected_tickers = ['STOCK1', 'STOCK2', 'STOCK3', 'STOCK4',
                                  'STOCK5', 'STOCK6', 'STOCK7', 'STOCK8', 'STOCK9', 'STOCK10']

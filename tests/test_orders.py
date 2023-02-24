@@ -20,7 +20,7 @@ class TestLinchackathon(unittest.TestCase):
         self.expected_orders_pending = 0
 
     def setUp(self):
-        self.group_token = '7cc90e5a-17a9-4d99-911f-1f979a2291ec'
+        self.group_token = 'ccc6816e-654d-4ecd-ac20-c7aba17cb0e9'
         self.starting_saldo = 10000  # HARDCODED
         u.token = self.group_token
         self.expected_tickers = ['STOCK1', 'STOCK2', 'STOCK3', 'STOCK4',
