@@ -10,7 +10,6 @@ RUN test 1 by 1 to check that everything works, bit goofy but hey.
 import linchackathon as lh
 from linchackathon import ipaddr as u
 import unittest
-import time
 
 
 class TestLinchackathon(unittest.TestCase):
