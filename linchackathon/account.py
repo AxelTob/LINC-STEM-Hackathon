@@ -9,24 +9,20 @@ from . import ipaddr as u
 # =============================================================================
 
 
-def getOrders():
+def get_orders():
     """
     This function returns a list of all the order that you have placed
     (completed and active)
     """
 
-    url_g = u.url + '/private/' + u.token + '/order'
-    with requests.Session() as session:
-        get = session.get(url_g)
-
-    return get.json()
-
+    return get_completed_orders() + get_pending_orders()
 
 # =============================================================================
 # Get completed orders
 # =============================================================================
 
-def getCompletedOrders():
+
+def get_completed_orders():
     """
     This function returns a list of all the order that are completed
     """
@@ -43,7 +39,7 @@ def getCompletedOrders():
 # Get pending orders
 # =============================================================================
 
-def getPendingOrders():
+def get_pending_orders():
     """
     This function returns a list of all the order that are completed
     """
@@ -57,10 +53,27 @@ def getPendingOrders():
 
 
 # =============================================================================
+# Get stoploss orders
+# =============================================================================
+
+def get_stoploss_orders():
+    """
+    This function returns a list of all the order that are completed
+    """
+
+    url_g = u.url + '/account/get_stoploss_orders'
+    body = {"api_key": u.token}
+    with requests.Session() as session:
+        get = session.get(url_g, json=body)
+
+    return get.json()
+
+
+# =============================================================================
 # get saldo
 # =============================================================================
 
-def getSaldo():
+def get_saldo():
     """
     This function returns an integer representing your current balance
     """
@@ -76,7 +89,7 @@ def getSaldo():
 # get portfolio
 # =============================================================================
 
-def getPortfolio():
+def get_portfolio():
     """
     This function returns a dictionary that contains the amount of shares you 
     own from each stock.

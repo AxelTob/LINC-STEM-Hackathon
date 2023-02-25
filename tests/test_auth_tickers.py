@@ -31,19 +31,19 @@ class TestLinchackathon(unittest.TestCase):
 
     def test_getTickers(self):
 
-        returned_tickers = lh.getTickers()
+        returned_tickers = lh.get_tickers()
         self.assertEqual(self.expected_tickers.sort(), returned_tickers.sort())
 
     def test_getSecurityPrices(self):
 
-        returned_prices = lh.getSecurityPrices()
+        returned_prices = lh.get_security_prices()
         returned_length = len(returned_prices)
 
         self.assertEqual(self.expected_tickers_length, returned_length)
 
     def test_getHistoricSymbols(self):
 
-        returned_historic_prices = lh.getStockHistory()
+        returned_historic_prices = lh.get_security_history()
         df = pd.DataFrame(returned_historic_prices)
         print(df.head())
         self.assertGreater(len(returned_historic_prices), 0)

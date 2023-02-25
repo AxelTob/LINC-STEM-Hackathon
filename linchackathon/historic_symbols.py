@@ -19,7 +19,7 @@ from . import ipaddr as u
 # =============================================================================
 
 
-def getTickers():
+def get_tickers():
     """
     This function returns a list with all the tickers.
 
@@ -37,7 +37,7 @@ def getTickers():
 # =============================================================================
 
 # TODO: remove this? Instead use getSecurity price and locate ticker from that dataframe
-def getStock(ticker):
+def get_stock(ticker):
     """
     This function takes in one argument, which is the ticker, as a string 
     and returns the current price of the stock.
@@ -78,7 +78,7 @@ def getStock(ticker):
 # =============================================================================
 
 
-def getSecurityPrices():
+def get_security_prices():
     """
     This function return the current prices of all stocks in a dataframe
 
@@ -103,7 +103,7 @@ def getSecurityPrices():
 # Getting Multiple point data One ticker
 # =============================================================================
 
-def getStockHistory(ticker=None, daysback=30):
+def get_security_history(ticker=None, daysback=30):
     """
     This function utilizes the getStock function and returns the history. It 
     requires the ticker and the ammount of days in the past. You can also
