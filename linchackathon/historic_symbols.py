@@ -117,9 +117,7 @@ def get_security_history(ticker=None, daysback=30):
 
     """
 
-    if type(ticker) == str or ticker == None:
-        pass
-    else:
+    if:
         raise ValueError("""
     			   
     	You have entered a wrong value. Make sure that the ticker is in the 
@@ -131,7 +129,7 @@ def get_security_history(ticker=None, daysback=30):
         raise ValueError("""
         You have entered a negative value for days back, it must be psotive.
         """)
-    if ticker not in u.tickers and ticker != None:
+    if ticker is None and ticker not in u.tickers:
         raise NameError("""
 
                 The Ticker you included is incorrect.
