@@ -138,9 +138,10 @@ def get_security_history(ticker=None, daysback=30):
                 Check the Tickers available by running 'getTickers()'
                 
                 """)
-
-    gstock_url = u.url + f'/data?ticker={ticker}&days_back={daysback}'
+    params = {'days_back': daysback}
+    if ticker:
+        params['ticker'] = ticker
     body = {"api_key": u.token}
-    response = requests.get(gstock_url,  json=body)
+    response = requests.get(u.url, params=params,  json=body)
 
     return response.json()
