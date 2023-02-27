@@ -16,7 +16,7 @@ from . import ipaddr as u
 # =============================================================================
 
 
-def buySecurity(symbol, amount):
+def buy_security(symbol, amount):
     """
     This function buys a security for current price
 
@@ -47,7 +47,7 @@ def buySecurity(symbol, amount):
 # =============================================================================
 
 
-def sellSecurity(symbol, amount):
+def sell_security(symbol, amount):
     """
     This function sells a security for current price
 
@@ -79,7 +79,7 @@ def sellSecurity(symbol, amount):
 # =============================================================================
 
 
-def placeBuyOrder(symbol, amount, price, days_to_cancel=30):
+def place_buy_order(symbol, amount, price, days_to_cancel=30):
     """
     This function places an order to buy a specific stock with a specific amount
     of shares when the price of that stock goes below a certain price. Or buys instantly
@@ -135,7 +135,7 @@ def placeBuyOrder(symbol, amount, price, days_to_cancel=30):
 # =============================================================================
 
 
-def placeSellOrder(symbol, amount, price, days_to_cancel=30):
+def place_sell_order(symbol, amount, price, days_to_cancel=30):
     """
     This function places an order to sell a specific stock with a specific amount
     of shares when the price of that stock goes below a certain price. Or buys instantly
@@ -190,7 +190,8 @@ def placeSellOrder(symbol, amount, price, days_to_cancel=30):
 # =============================================================================
 
 
-def placeStoplossOrder(symbol, amount, price):  # TODO: fix documentation
+# TODO: fix documentation
+def place_stoploss_order(symbol, amount, price, days_to_cancel=30):
     """
     This function places an order to sell a specific stock with a specific amount
     of shares when the price of that stock goes below a certain price. Or buys instantly
@@ -245,18 +246,19 @@ def placeStoplossOrder(symbol, amount, price):  # TODO: fix documentation
 # cancel Order
 # =============================================================================
 
-def cancelOrder(symbol):  # TODO: fix documentation
+def cancel_order(symbol):  # TODO: fix documentation
     """
     This function is used to cancel an order on a specific stock that is still 
     active. 
 
         Args:
             symbol: A ticker symbol or stock symbol (ex: AAPL for Apple)
+
     """
 
-    url_s = u.url + f'/cancel?order_id={symbol}'
+    url_s = u.url + f'/order/cancel?ticker={symbol}'
     body = {'api_key': u.token}
     with requests.Session() as session:
-        post = session.delete(url_s, json=body)
+        post = session.put(url_s, json=body)
 
     return post.content.decode("utf-8")

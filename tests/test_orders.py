@@ -10,7 +10,6 @@ RUN test 1 by 1 to check that everything works, bit goofy but hey.
 import linchackathon as lh
 from linchackathon import ipaddr as u
 import unittest
-import time
 
 
 class TestLinchackathon(unittest.TestCase):
@@ -20,7 +19,7 @@ class TestLinchackathon(unittest.TestCase):
         self.expected_orders_pending = 0
 
     def setUp(self):
-        self.group_token = '7cc90e5a-17a9-4d99-911f-1f979a2291ec'
+        self.group_token = 'bbdde9e8-5bce-482b-b9c3-16b7f86f55db'
         self.starting_saldo = 10000  # HARDCODED
         u.token = self.group_token
         self.expected_tickers = ['STOCK1', 'STOCK2', 'STOCK3', 'STOCK4',
@@ -31,30 +30,31 @@ class TestLinchackathon(unittest.TestCase):
         lh.init(self.group_token)
 
     def test_completedOrders_empty(self):
-        returned_orders = lh.getCompletedOrders()
+        returned_orders = lh.get_completed_orders()
         self.assertEqual(len(returned_orders), 0)
 
     def test_pendingOrders_empty(self):
-        returned_orders = lh.getPendingOrders()
+        returned_orders = lh.get_pending_orders()
         self.assertEqual(len(returned_orders), 0)
 
     def test_add_pendingOrder(self):
         symbol = "STOCK1"
         amount = 1
         price = 1  # Price we never will buy at
-        result = lh.placeBuyOrder(symbol, amount, price, days_to_cancel=40000)
+        result = lh.place_buy_order(
+            symbol, amount, price, days_to_cancel=40000)
         if result:
             self.expected_orders_pending += 1
 
-        pending_orders = lh.getPendingOrders()
+        pending_orders = lh.get_pending_orders()
         self.assertEqual(len(pending_orders), self.expected_orders_pending)
 
     def test_placeBuyOrder(self):
         symbol = "STOCK2"
-        amount = 2
+        amount = 1
         price = 5000  # Price we will buy at
 
-        result = lh.placeBuyOrder(symbol, amount, price)
+        result = lh.place_buy_order(symbol, amount, price)
         result_str = result[0:6]
         self.assertEqual(result_str, '{"amou')
 
@@ -63,23 +63,23 @@ class TestLinchackathon(unittest.TestCase):
         amount = 1
         price = 0  # Price we sell at
 
-        result = lh.placeSellOrder(symbol, amount, price)
+        result = lh.place_sell_order(symbol, amount, price)
         result_str = result[0:6]
         self.assertEqual(result_str, '{"amou')
 
     def test_buySecurity(self):
         symbol = "STOCK8"
         amount = 1
-        result = lh.buySecurity(symbol, amount)
+        result = lh.buy_security(symbol, amount)
         result_str = result[0:6]
-        self.assertEqual(result_str["amount"], '{"amou')
+        self.assertEqual(result_str, '{"amou')
 
     def test_sellSecurity(self):
         symbol = "STOCK8"
         amount = 1
-        result = lh.sellSecurity(symbol, amount)
+        result = lh.sell_security(symbol, amount)
         result_str = result[0:6]
-        self.assertEqual(result_str["amount"], '{"amou')
+        self.assertEqual(result_str, '{"amou')
 
     def test_placeSellOrder_notOwned(self):
         # SELLING STOCK WE DONT OWN TEST
@@ -87,25 +87,45 @@ class TestLinchackathon(unittest.TestCase):
         amount = 1
         price = 2  # Price we will sell at
 
-        result = lh.placeSellOrder(symbol, amount, price)
+        result = lh.place_sell_order(symbol, amount, price)
         result_str = result[0:6]
         self.assertEqual(result_str, '(psyco')
 
     def test_getSaldo(self):
-        result = lh.getSaldo()
+        result = lh.get_saldo()
         saldo = result['saldo']
 
         self.assertGreaterEqual(saldo, 0, msg="saldo not recieved")
 
     def test_getPortfolio(self):
-        result = lh.getPortfolio()
-        portfolio_size = len(result)
-        self.assertEqual(portfolio_size, 1)
+        result = lh.get_portfolio()
+        portfolio_size = sum(result.values())
+        self.assertEqual(portfolio_size, 0)
+
+    def test_cancel_order(self):
+        symbol = "STOCK1"
+        amount = 1
+        price = 2
+
+        place_order = lh.place_buy_order(symbol, amount, price)
+        cancel_order = lh.cancel_order(symbol)
+
+        place_order_str = place_order[0:6]
+        cancel_order_str = cancel_order[0:6]
+
+        self.assertEqual(cancel_order_str, '{\"mess')
+        self.assertEqual(place_order_str, '{\"amou')
 
     def test_stopLoss(self):
-        # TODO: Test stoplosses
-        pass
+        symbol = "STOCK2"
+        amount = 1
+        price = 2
 
-    def test_cancelOrder(self):
-        # TODO: test this
-        pass
+        place_order = lh.place_buy_order(symbol, amount, 2000)
+        stoploss_order = lh.place_stoploss_order(symbol, amount, price)
+
+        place_order_str = place_order[0:6]
+        cancel_order_str = stoploss_order[0:6]
+
+        self.assertEqual(cancel_order_str, '{\"amou')
+        self.assertEqual(place_order_str, '{\"amou')

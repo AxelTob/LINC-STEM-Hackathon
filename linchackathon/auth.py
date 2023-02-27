@@ -10,7 +10,7 @@ Created on Wed Jan 13 11:08:56 2021
 # =============================================================================
 import requests
 from . import ipaddr as u
-from .historic_symbols import getTickers
+from .historic_symbols import get_tickers
 
 # =============================================================================
 # Initialize
@@ -36,7 +36,7 @@ def init(group_token):
 
     u.token = group_token
 
-    u.tickers = u.tickers + getTickers()
+    u.tickers = u.tickers + get_tickers()
 
     url = u.url
 
