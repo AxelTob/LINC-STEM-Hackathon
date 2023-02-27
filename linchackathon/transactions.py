@@ -5,260 +5,122 @@ Created on Sun Jan 24 19:50:58 2021
 @author: yasse
 """
 
-# =============================================================================
-#  Imports
-# =============================================================================
 import requests
 from . import ipaddr as u
+from typing import Union, Dict
 
 # =============================================================================
-# Buy security
+# Buy, Sell, and Stoploss Securities
 # =============================================================================
 
 
-def buy_security(symbol, amount):
+def _place_order(order_type: str, symbol: str, amount: int, price: Union[int, None] = None, days_to_cancel: int = 30) -> Dict:
     """
-    This function buys a security for current price
+    This is a private function for placing buy, sell, and stoploss orders for securities.
 
-        Args:
-            symbol: A ticker symbol or stock symbol (ex: AAPL for Apple)
-            amount: Number of shares
+    Args:
+        order_type (str): The type of order (buy, sell, or stoploss)
+        symbol (str): A ticker symbol or security symbol (ex: AAPL for Apple)
+        amount (int): Number of shares
+        price (int, optional): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
+        days_to_cancel (int, optional): How many days you want this trade to stay active: e.g entering 30 means that trade will be held for 30 days and then cancelled if security price never reaches given price to buy. Defaults to None.
 
+    Returns:
+        dict: The response content from the server as a dictionary
     """
-    try:
-        int(amount)
-    except:
+
+    if not isinstance(amount, int) or (price is not None and not isinstance(price, int)) or (days_to_cancel is not None and not isinstance(days_to_cancel, int)):
         raise ValueError("""The amount and price must be integers""")
 
-    order_type = "buy"
-    amount = int(amount)
+    params = {'api_key': u.token, 'type': order_type,
+              'symbol': symbol, 'amount': amount, 'days_to_cancel': days_to_cancel}
 
-    url_s = u.url + \
-        f'/order?type={order_type}&symbol={symbol}&amount={amount}'
+    if price is not None:
+        params['price'] = price
 
-    body = {'api_key': u.token}
+    url_s = u.url + '/order'
+
     with requests.Session() as session:
-        post = session.post(url_s, json=body)
+        response = session.post(url_s, params=params)
 
-    return post.content.decode("utf-8")
-
-# =============================================================================
-# Sell security
-# =============================================================================
+    return response.json()
 
 
-def sell_security(symbol, amount):
+def buy_security(symbol: str, amount: int, price: Union[int, None] = None, days_to_cancel: int = 30) -> Dict:
     """
-    This function sells a security for current price
+    This function places a buy order for a given security.
 
-        Args:
-            symbol: A ticker symbol or stock symbol (ex: AAPL for Apple)
-            amount: Number of shares
+    Args:
+        symbol (str): A ticker symbol or security symbol (ex: AAPL for Apple)
+        amount (int): Number of shares
+        price (int, optional): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
+        days_to_cancel (int, optional): How many days you want this trade to stay active: e.g entering 30 means that trade will be held for 30 days and then cancelled if security price never reaches given price to buy. Defaults to None.
+
+    Returns:
+        dict: The response content from the server as a dictionary
+    """
+    return _place_order('buy', symbol, amount, price, days_to_cancel)
+
+
+def sell(symbol: str, amount: int, price: Union[int, None] = None, days_to_cancel: int = 30) -> Dict:
+    """
+    This function places a sell order for a given security.
+
+    Args:
+        symbol (str): A security symbol (ex: STOCK1, STOCK2, etc.)
+        amount (int): Number of shares
+        price (int, optional): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
+        days_to_cancel (int, optional): How many days you want this trade to stay active: e.g entering 30 means that trade will be held for 30 days and then cancelled if security price never reaches given price to buy. Defaults to None.
+
+    Returns:
+        dict: The response content from the server as a dictionary
+
 
     """
-    try:
-        int(amount)
-    except:
-        raise ValueError("""The amount and price must be integers""")
+    return _place_order('sell', symbol, amount, price, days_to_cancel)
 
-    order_type = "sell"
-    amount = int(amount)
 
-    url_s = u.url + \
-        f'/order?type={order_type}&symbol={symbol}&amount={amount}'
+def stoploss(symbol: str, amount: int, price: Union[int, None] = None, days_to_cancel: int = 30):
+    """
+    This function places a sell order for a given security.
 
-    body = {'api_key': u.token}
+    Args:
+        symbol (str): A security symbol (ex: STOCK1, STOCK2, etc.)
+        amount (int): Number of shares
+        price (int, optional): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
+        days_to_cancel (int, optional): How many days you want this trade to stay active: e.g entering 30 means that trade will be held for 30 days and then cancelled if security price never reaches given price to buy. Defaults to None.
+
+    Returns:
+        dict: The response content from the server as a dictionary
+    """
+    return _place_order('stoploss', symbol, amount, price, days_to_cancel)
+
+
+def cancel_order(order_id: Union[int, None] = None, symbol: Union[str, None] = None):
+    """
+    This function cancels a specific order or all orders for a given security.
+
+    Args:
+        order_id (int, optional): The id of the order you want to cancel. Defaults to None.
+        symbol (str, optional): The symbol of the stock you want to cancel all orders for. Defaults to None.
+
+    Returns:
+        str: The response content from the server as a string
+    """
+
+    if order_id is None and symbol is None:
+        raise ValueError("""You must specify either an order_id or a symbol""")
+
+    params = {'api_key': u.token}
+
+    if order_id is not None:
+        params['order_id'] = order_id
+    else:
+        params['symbol'] = symbol
+
+    url_s = u.url + '/cancel_order'
+
     with requests.Session() as session:
-        post = session.post(url_s, json=body)
+        response = session.post(url_s, params=params)
 
-    return post.content.decode("utf-8")
-
-
-# =============================================================================
-# Place Buy order
-# =============================================================================
-
-
-def place_buy_order(symbol, amount, price, days_to_cancel=30):
-    """
-    This function places an order to buy a specific stock with a specific amount
-    of shares when the price of that stock goes below a certain price. Or buys instantly
-    if price requested is higher than current stock price 
-
-        Args:
-            symbol: A ticker symbol or stock symbol (ex: AAPL for Apple)
-            Amount: number of shares
-            price : The price for which you want the stock to be under
-                    in order to buy
-            days_to_cancel : How many days you want this trade to stay active:
-                e.g entering 30 means that trade will be held for 30 days and then cancelled if stock price never reaches given price to buy.
-
-        Example:
-            The AAPL price currently is at 160 per share and we place an order
-            so :
-                placeBuyOrder('AAPL', 2, 150)
-
-            then this order will wait until the price of the AAPL hits 150 and 
-            then buys 2 shares.
-
-            If the AAPL price is currently at 100 and we place the same order
-            then it will be executed instantly and buy 2 shares for 100. Unless
-            its a weekend of course then it will wait till the market is open.
-    """
-
-    try:
-        int(amount)
-        int(price)
-        int(days_to_cancel)
-    except:
-        raise ValueError("""The amount and price must be integers""")
-
-    order_type = "buy"
-    amount = int(amount)
-    price = int(price)
-    days_to_cancel = int(days_to_cancel)
-
-    url_s = u.url + \
-        f'/order?type={order_type}&symbol={symbol}&amount={amount}&price={price}'
-    if days_to_cancel is not None:
-        url_s += f'&cancel_date={days_to_cancel}'
-
-    body = {'api_key': u.token}
-    with requests.Session() as session:
-        post = session.post(url_s, json=body)
-
-    return post.content.decode("utf-8")
-
-
-# =============================================================================
-# Place Sell order
-# =============================================================================
-
-
-def place_sell_order(symbol, amount, price, days_to_cancel=30):
-    """
-    This function places an order to sell a specific stock with a specific amount
-    of shares when the price of that stock goes below a certain price. Or buys instantly
-    if price requested is higher than current stock price 
-
-        Args:
-            symbol: A ticker symbol or stock symbol (ex: AAPL for Apple)
-            Amount: number of shares
-            price : The price for which you want the stock to be under
-                    in order to buy
-            days_to_cancel : How many days you want this trade to stay active:
-                e.g entering 30 means that trade will be held for 30 days and then cancelled if stock price never reaches given price to buy.
-
-        Example:
-            The AAPL price currently is at 160 per share and we place a sell order
-            so :
-                placeSellOrder('AAPL', 2, 180)
-
-            then this order will wait until the price of the AAPL hits 180 and 
-            then sell 2 shares.
-
-            If the AAPL price is currently at 200 and we place the same order
-            then it will be executed instantly and sell 2 shares for 180. Unless
-            its a weekend of course then it will wait till the market is open.
-    """
-
-    try:
-        int(amount)
-        int(price)
-        int(days_to_cancel)
-    except:
-        raise ValueError("""The amount and price must be integers""")
-
-    order_type = "sell"
-    amount = int(amount)
-    price = int(price)
-    days_to_cancel = int(days_to_cancel)
-
-    url_s = u.url + \
-        f'/order?type={order_type}&symbol={symbol}&amount={amount}&price={price}'
-    if days_to_cancel is not None:
-        url_s += f'&cancel_date={days_to_cancel}'
-
-    body = {'api_key': u.token}
-    with requests.Session() as session:
-        post = session.post(url_s, json=body)
-
-    return post.content.decode("utf-8")
-
-# =============================================================================
-# Place Stoploss order
-# =============================================================================
-
-
-# TODO: fix documentation
-def place_stoploss_order(symbol, amount, price, days_to_cancel=30):
-    """
-    This function places an order to sell a specific stock with a specific amount
-    of shares when the price of that stock goes below a certain price. Or buys instantly
-    if price requested is higher than current stock price 
-
-        Args:
-            symbol: A ticker symbol or stock symbol (ex: AAPL for Apple)
-            Amount: number of shares
-            price : The price for which you want the stock to be under
-                    in order to buy
-            days_to_cancel : How many days you want this trade to stay active:
-                e.g entering 30 means that trade will be held for 30 days and then cancelled if stock price never reaches given price to buy.
-
-        Example:
-            The AAPL price currently is at 160 per share and we place a sell order
-            so :
-                placeSellOrder('AAPL', 2, 180)
-
-            then this order will wait until the price of the AAPL hits 180 and 
-            then sell 2 shares.
-
-            If the AAPL price is currently at 200 and we place the same order
-            then it will be executed instantly and sell 2 shares for 180. Unless
-            its a weekend of course then it will wait till the market is open.
-    """
-
-    try:
-        int(amount)
-        int(price)
-        int(days_to_cancel)
-    except:
-        raise ValueError("""The amount and price must be integers""")
-
-    order_type = "stoploss"
-    amount = int(amount)
-    price = int(price)
-    days_to_cancel = int(days_to_cancel)
-
-    url_s = u.url + \
-        f'/order?type={order_type}&symbol={symbol}&amount={amount}&price={price}'
-    if days_to_cancel is not None:
-        url_s += f'&cancel_date={days_to_cancel}'
-
-    body = {'api_key': u.token}
-    with requests.Session() as session:
-        post = session.post(url_s, json=body)
-
-    return post.content.decode("utf-8")
-
-
-# =============================================================================
-# cancel Order
-# =============================================================================
-
-def cancel_order(symbol):  # TODO: fix documentation
-    """
-    This function is used to cancel an order on a specific stock that is still 
-    active. 
-
-        Args:
-            symbol: A ticker symbol or stock symbol (ex: AAPL for Apple)
-
-    """
-
-    url_s = u.url + f'/order/cancel?ticker={symbol}'
-    body = {'api_key': u.token}
-    with requests.Session() as session:
-        post = session.put(url_s, json=body)
-
-    return post.content.decode("utf-8")
+    return response.json()
