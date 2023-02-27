@@ -37,7 +37,7 @@ def get_tickers():
 # =============================================================================
 
 # TODO: remove this? Instead use getSecurity price and locate ticker from that dataframe
-def get_stock(ticker):
+def get_stock(ticker) -> dict:
     """
     This function takes in one argument, which is the ticker, as a string 
     and returns the current price of the stock.
@@ -46,31 +46,13 @@ def get_stock(ticker):
             ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
 
     """
-
-    if type(ticker) == str:
-        pass
-
-    elif ticker not in u.tickers:
-        raise NameError("""
-
-                The Ticker you included is incorrect.
-                Check the Tickers available by running 'getTickers()'
-                
-                """)
-    else:
-        raise ValueError("""
-    			   
-    	You have entered a wrong value. Make sure that the ticker is in the 
-    	form of a string like : 
-    		
-    		'AAPL'
-
-    		""")
+    if type(ticker) != str:
+        raise ValueError("The ticker must be a string")
 
     gstock_url = u.url + '/public/' + ticker
     response = requests.get(gstock_url)
 
-    return response.json()[0]
+    return response.json()
 
 
 # =============================================================================
@@ -78,7 +60,7 @@ def get_stock(ticker):
 # =============================================================================
 
 
-def get_security_prices():
+def get_security_prices() -> pd.DataFrame:
     """
     This function return the current prices of all stocks in a dataframe
 
@@ -103,7 +85,7 @@ def get_security_prices():
 # Getting Multiple point data One ticker
 # =============================================================================
 
-def get_security_history(ticker=None, daysback=30):
+def get_security_history(ticker=None, days_back=30) -> dict:
     """
     This function utilizes the getStock function and returns the history. It 
     requires the ticker and the ammount of days in the past. You can also
@@ -116,16 +98,7 @@ def get_security_history(ticker=None, daysback=30):
                        in the past
 
     """
-
-    if:
-        raise ValueError("""
-    			   
-    	You have entered a wrong value. Make sure that the ticker is in the 
-    	form of a string like : 
-    		
-    		'AAPL'
-    		""")
-    if daysback < 0:
+    if days_back < 0 or days_back > 365:
         raise ValueError("""
         You have entered a negative value for days back, it must be psotive.
         """)
@@ -136,7 +109,7 @@ def get_security_history(ticker=None, daysback=30):
                 Check the Tickers available by running 'getTickers()'
                 
                 """)
-    params = {'days_back': daysback}
+    params = {'days_back': days_back}
     if ticker:
         params['ticker'] = ticker
     body = {"api_key": u.token}
