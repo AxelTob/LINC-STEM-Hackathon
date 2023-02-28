@@ -55,7 +55,7 @@ def get_balance() -> float:
 
 def get_portfolio() -> Dict[str, int]:
     """
-    Returns a dictionary with the amount of shares owned for each stock
+    Returns a dictionary with the amount of securities owned for each security
     """
     url = ip_address.url + '/account/portfolio'
     body = {"api_key": ip_address.token}
