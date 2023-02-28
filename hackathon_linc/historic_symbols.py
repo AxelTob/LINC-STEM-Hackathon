@@ -11,8 +11,6 @@ Created on Wed Jan 13 11:08:56 2021
 # =============================================================================
 from typing import List
 import requests
-import pandas as pd
-import numpy as np
 from . import ipaddr as u
 
 # =============================================================================
