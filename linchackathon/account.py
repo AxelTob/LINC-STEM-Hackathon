@@ -1,15 +1,16 @@
 import requests
 from . import ipaddr as ip_address
+from typing import List, Dict, Union
 
 
-def get_all_orders():
+def get_all_orders() -> List[Dict[str, Union[str, int, float]]]:
     """
     Returns a list of all completed and pending orders
     """
     return get_completed_orders() + get_pending_orders()
 
 
-def get_completed_orders():
+def get_completed_orders() -> List[Dict[str, Union[str, int, float]]]:
     """
     Returns a list of completed orders
     """
@@ -20,7 +21,7 @@ def get_completed_orders():
     return response.json()
 
 
-def get_pending_orders():
+def get_pending_orders() -> List[Dict[str, Union[str, int, float]]]:
     """
     Returns a list of pending orders
     """
@@ -31,7 +32,7 @@ def get_pending_orders():
     return response.json()
 
 
-def get_stoploss_orders():
+def get_stoploss_orders() -> List[Dict[str, Union[str, int, float]]]:
     """
     Returns a list of stoploss orders
     """
@@ -42,9 +43,9 @@ def get_stoploss_orders():
     return response.json()
 
 
-def get_balance():
+def get_balance() -> Dict[str, Union[str, int, float]]:
     """
-    Returns an integer representing the current balance
+    Returns a dictionary with the current balance
     """
     url = ip_address.url + f'/account/saldo'
     body = {"api_key": ip_address.token}
@@ -52,7 +53,7 @@ def get_balance():
     return response.json()
 
 
-def get_portfolio():
+def get_portfolio() -> Dict[str, int]:
     """
     Returns a dictionary with the amount of shares owned for each stock
     """

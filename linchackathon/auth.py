@@ -17,11 +17,20 @@ from .historic_symbols import get_tickers
 # =============================================================================
 
 
-def init(group_token):
+def init(group_token: str):
     """
+    Initializes the connection and authenticates the token.
 
-    Initializing the connection and authenticating the token.
+    Args:
+        group_token (str): The token for authentication.
 
+    Raises:
+        ValueError: If the token is not a string.
+
+        NameError: If the token is not valid.
+
+    Returns:
+        None: Prints a welcome message.
     """
 
     if type(group_token) == str:

@@ -20,7 +20,7 @@ def _place_order(order_type: str, symbol: str, amount: int, price: Union[int, No
 
     Args:
         order_type (str): The type of order (buy, sell, or stoploss)
-        symbol (str): A ticker symbol or security symbol (ex: AAPL for Apple)
+        symbol (str): A security symbol (ex: STOCK1, STOCK2, etc.)
         amount (int): Number of shares
         price (int, optional): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
         days_to_cancel (int, optional): How many days you want this trade to stay active: e.g entering 30 means that trade will be held for 30 days and then cancelled if security price never reaches given price to buy. Defaults to None.
@@ -46,12 +46,12 @@ def _place_order(order_type: str, symbol: str, amount: int, price: Union[int, No
     return response.json()
 
 
-def buy_security(symbol: str, amount: int, price: Union[int, None] = None, days_to_cancel: int = 30) -> Dict:
+def buy(symbol: str, amount: int, price: Union[int, None] = None, days_to_cancel: int = 30) -> Dict:
     """
     This function places a buy order for a given security.
 
     Args:
-        symbol (str): A ticker symbol or security symbol (ex: AAPL for Apple)
+        symbol (str): A security symbol (ex: STOCK1, STOCK2, etc.)
         amount (int): Number of shares
         price (int, optional): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
         days_to_cancel (int, optional): How many days you want this trade to stay active: e.g entering 30 means that trade will be held for 30 days and then cancelled if security price never reaches given price to buy. Defaults to None.
@@ -96,7 +96,7 @@ def stoploss(symbol: str, amount: int, price: Union[int, None] = None, days_to_c
     return _place_order('stoploss', symbol, amount, price, days_to_cancel)
 
 
-def cancel_order(order_id: Union[int, None] = None, symbol: Union[str, None] = None):
+def cancel(order_id: Union[int, None] = None, symbol: Union[str, None] = None):
     """
     This function cancels a specific order or all orders for a given security.
 

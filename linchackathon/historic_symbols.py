@@ -9,6 +9,7 @@ Created on Wed Jan 13 11:08:56 2021
 # =============================================================================
 #  Imports
 # =============================================================================
+from typing import List
 import requests
 import pandas as pd
 import numpy as np
@@ -19,7 +20,7 @@ from . import ipaddr as u
 # =============================================================================
 
 
-def get_tickers():
+def get_tickers() -> List[str]:
     """
     This function returns a list with all the tickers.
 
