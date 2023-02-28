@@ -16,8 +16,7 @@ def get_completed_orders() -> List[Dict[str, Union[str, int, float]]]:
     """
     url = ip_address.url + '/account/get_completed_orders'
     body = {"api_key": ip_address.token}
-    with requests.Session() as session:
-        response = session.get(url, json=body)
+    response = requests.get(url, json=body)
     return response.json()
 
 
@@ -27,8 +26,7 @@ def get_pending_orders() -> List[Dict[str, Union[str, int, float]]]:
     """
     url = ip_address.url + '/account/open_orders'
     body = {"api_key": ip_address.token}
-    with requests.Session() as session:
-        response = session.get(url, json=body)
+    response = requests.get(url, json=body)
     return response.json()
 
 
@@ -38,19 +36,21 @@ def get_stoploss_orders() -> List[Dict[str, Union[str, int, float]]]:
     """
     url = ip_address.url + '/account/get_stoploss_orders'
     body = {"api_key": ip_address.token}
-    with requests.Session() as session:
-        response = session.get(url, json=body)
+    response = requests.get(url, json=body)
     return response.json()
 
 
-def get_balance() -> Dict[str, Union[str, int, float]]:
+def get_balance() -> float:
     """
     Returns a dictionary with the current balance
     """
     url = ip_address.url + f'/account/saldo'
     body = {"api_key": ip_address.token}
     response = requests.get(url, json=body)
-    return response.json()
+    if response.status_code == 200:
+        return response.json()['saldo']
+    else:
+        raise Exception(response.json())
 
 
 def get_portfolio() -> Dict[str, int]:

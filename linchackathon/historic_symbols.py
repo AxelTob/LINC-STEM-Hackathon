@@ -45,11 +45,7 @@ def get_current_price(ticker: str = None) -> dict:
     Returns:
         dict: A dictionary containing the current price of the security or securities.
     """
-    if type(ticker) != str:
-        raise ValueError("The ticker must be a string")
-
     gstock_url = u.url + '/data/stocks'
-
     params = {'ticker': ticker} if ticker else {}
     response = requests.get(gstock_url, params=params)
     return response.json()

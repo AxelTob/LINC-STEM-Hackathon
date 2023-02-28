@@ -32,16 +32,18 @@ def _place_order(order_type: str, symbol: str, amount: int, price: Union[int, No
     if not isinstance(amount, int) or (price is not None and not isinstance(price, int)) or (days_to_cancel is not None and not isinstance(days_to_cancel, int)):
         raise ValueError("""The amount and price must be integers""")
 
-    params = {'api_key': u.token, 'type': order_type,
-              'symbol': symbol, 'amount': amount, 'days_to_cancel': days_to_cancel}
+    params = {'type': order_type,
+              'symbol': symbol,
+              'amount': amount,
+              'days_to_cancel': days_to_cancel}
+    body = {'api_key': u.token}
 
     if price is not None:
         params['price'] = price
 
     url_s = u.url + '/order'
 
-    with requests.Session() as session:
-        response = session.post(url_s, params=params)
+    response = requests.post(url_s, params=params, json=body)
 
     return response.json()
 
