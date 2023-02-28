@@ -7,8 +7,8 @@ Tests are very simple to ensure that basic functionality is in place.
 RUN test 1 by 1 to check that everything works, bit goofy but hey.
 """
 # Add the parent directory of your project to your Python path
-import linchackathon as lh
-from linchackathon import ipaddr as u
+import lincstem_hackathon as lh
+from lincstem_hackathon import ipaddr as u
 import unittest
 
 

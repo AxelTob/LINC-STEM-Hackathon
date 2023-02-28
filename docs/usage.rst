@@ -4,4 +4,4 @@ Usage
 
 To use linchackathon in a project::
 
-    import linchackathon
+    import hackathon_linc

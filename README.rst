@@ -1,6 +1,5 @@
-=============
 lincstem-hackathon
-=============
+===================
 
 
 .. image:: https://img.shields.io/pypi/v/linchackathon.svg
@@ -12,8 +11,6 @@ lincstem-hackathon
 .. image:: https://readthedocs.org/projects/linchackathon/badge/?version=latest
         :target: https://linchackathon.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-
-
 
 
 A package needed to participate in LINC's Hackathon

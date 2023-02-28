@@ -8,10 +8,9 @@ BE SURE TO add api key to self.group_token from database in order to test the fu
 Tests are very simple to ensure that basic functionality is in place.
 """
 # Add the parent directory of your project to your Python path
-import linchackathon as lh
-from linchackathon import ipaddr as u
+import lincstem_hackathon as lh
+from lincstem_hackathon import ipaddr as u
 import unittest
-import pandas as pd
 
 
 class TestLinchackathon(unittest.TestCase):

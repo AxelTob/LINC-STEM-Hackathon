@@ -13,7 +13,7 @@ with open('HISTORY.rst') as history_file:
 requirements = ['Click>=7.0', 'requests>=2.0.0',
                 'pandas>=0.25.3', 'numpy>=1.18.0']
 
-setup_requirements = ["setuptools>=42", "wheel"],
+setup_requirements = ["setuptools>=42", "wheel"]
 
 test_requirements = []
 
@@ -33,16 +33,16 @@ setup(
     description="A package needed to participate i's Hackathon",
     entry_points={
         'console_scripts': [
-            'linchackathon=linchackathon.cli:main',
+            'hackathon_linc=hackathon_linc.cli:main',
         ],
     },
     install_requires=requirements,
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
-    keywords='linchackathon',
-    name='lincstem-hackathon',
-    packages=find_packages(include=['linchackathon', 'linchackathon.*']),
+    keywords='hackathon_linc',
+    name='hackathon_linc',
+    packages=find_packages(include=['hackathon_linc', 'hackathon_linc.*']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,

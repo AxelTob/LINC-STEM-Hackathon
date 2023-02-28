@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = linchackathon
+SPHINXPROJ    = hackathon_linc
 SOURCEDIR     = .
 BUILDDIR      = _build
 
