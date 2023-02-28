@@ -78,7 +78,6 @@ def get_security_prices() -> pd.DataFrame:
 
     response_json = response.json()
     df = pd.DataFrame(response_json['data'])
-    df.set_index('symbol', inplace=True)
     return df
 
 
@@ -103,7 +102,7 @@ def get_security_history(days_back: int, ticker: str = None) -> dict:
         raise ValueError("""
         You have entered a negative value for days back, it must be psotive.
         """)
-    if ticker is None and ticker not in u.tickers:
+    if ticker is not None and ticker not in u.tickers:
         raise NameError("""
 
                 The Ticker you included is incorrect.
@@ -114,6 +113,6 @@ def get_security_history(days_back: int, ticker: str = None) -> dict:
     if ticker:
         params['ticker'] = ticker
     body = {"api_key": u.token}
-    response = requests.get(u.url, params=params,  json=body)
+    response = requests.get(u.url + '/data', params=params, json=body)
 
     return response.json()
