@@ -9,6 +9,7 @@ Created on Wed Jan 13 11:08:56 2021
 # =============================================================================
 #  Imports
 # =============================================================================
+from typing import List
 import requests
 import pandas as pd
 import numpy as np
@@ -19,7 +20,7 @@ from . import ipaddr as u
 # =============================================================================
 
 
-def get_tickers():
+def get_all_tickers() -> List[str]:
     """
     This function returns a list with all the tickers.
 
@@ -32,115 +33,50 @@ def get_tickers():
     return response_json
 
 
-# =============================================================================
-# Getting One point data One ticker
-# =============================================================================
-
-# TODO: remove this? Instead use getSecurity price and locate ticker from that dataframe
-def get_stock(ticker):
+def get_current_price(ticker: str = None) -> dict:
     """
-    This function takes in one argument, which is the ticker, as a string 
-    and returns the current price of the stock.
+    This function takes in one argument, which is the ticker symbol, as a string 
+    and returns the current price of the security. If no ticker is provided, 
+    the function returns the current prices of all securities.
+
+    Args:
+        ticker (str, optional): The ticker symbol of the security. If no ticker is provided, the function returns the current prices of all securities.
+
+    Returns:
+        dict: A dictionary containing the current price of the security or securities.
+    """
+    gstock_url = u.url + '/data/stocks'
+    params = {'ticker': ticker} if ticker else {}
+    response = requests.get(gstock_url, params=params)
+    return response.json()
+
+
+def get_historical_data(days_back: int, ticker: str = None) -> dict:
+    """
+    This function gets historical data for tickers. If no ticker is specified it returns
+    for all tickers. Requires days_back as a parameter and maximum 1 year back.
 
         Args:
-            ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
-
-    """
-
-    if type(ticker) == str:
-        pass
-
-    elif ticker not in u.tickers:
-        raise NameError("""
-
-                The Ticker you included is incorrect.
-                Check the Tickers available by running 'getTickers()'
-                
-                """)
-    else:
-        raise ValueError("""
-    			   
-    	You have entered a wrong value. Make sure that the ticker is in the 
-    	form of a string like : 
-    		
-    		'AAPL'
-
-    		""")
-
-    gstock_url = u.url + '/public/' + ticker
-    response = requests.get(gstock_url)
-
-    return response.json()[0]
-
-
-# =============================================================================
-# Getting One point data One ticker
-# =============================================================================
-
-
-def get_security_prices():
-    """
-    This function return the current prices of all stocks in a dataframe
-
-        Args:
-            ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
-
-    """
-
-    try:
-        gstock_url = u.url + '/data/stocks'
-        response = requests.get(gstock_url)
-    except Exception as e:
-        print(f"errror: {str(e)}")
-
-    response_json = response.json()
-    df = pd.DataFrame(response_json['data'])
-    df.set_index('symbol', inplace=True)
-    return df
-
-
-# =============================================================================
-# Getting Multiple point data One ticker
-# =============================================================================
-
-def get_security_history(ticker=None, daysback=30):
-    """
-    This function utilizes the getStock function and returns the history. It 
-    requires the ticker and the ammount of days in the past. You can also
-    insert 'all' in the ticker argument to get the history of all the stocks
-    instead of a specifc one.
-
-        Args:
-            ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
+            ticker : the ticker symbol or stock symbol (ex: STOCK1, STOCK2)
             daysback : an integer specifying the number of days to scrape from
                        in the past
 
     """
-
-    if type(ticker) == str or ticker == None:
-        pass
-    else:
-        raise ValueError("""
-    			   
-    	You have entered a wrong value. Make sure that the ticker is in the 
-    	form of a string like : 
-    		
-    		'AAPL'
-    		""")
-    if daysback < 0:
+    if days_back < 0 or days_back > 365:
         raise ValueError("""
         You have entered a negative value for days back, it must be psotive.
         """)
-    if ticker not in u.tickers and ticker != None:
+    if ticker is not None and ticker not in u.tickers:
         raise NameError("""
 
                 The Ticker you included is incorrect.
                 Check the Tickers available by running 'getTickers()'
                 
                 """)
-
-    gstock_url = u.url + f'/data?ticker={ticker}&days_back={daysback}'
+    params = {'days_back': days_back}
+    if ticker:
+        params['ticker'] = ticker
     body = {"api_key": u.token}
-    response = requests.get(gstock_url,  json=body)
+    response = requests.get(u.url + '/data', params=params, json=body)
 
     return response.json()

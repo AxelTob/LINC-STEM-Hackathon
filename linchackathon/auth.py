@@ -10,18 +10,27 @@ Created on Wed Jan 13 11:08:56 2021
 # =============================================================================
 import requests
 from . import ipaddr as u
-from .historic_symbols import get_tickers
+from .historic_symbols import get_all_tickers
 
 # =============================================================================
 # Initialize
 # =============================================================================
 
 
-def init(group_token):
+def init(group_token: str):
     """
+    Initializes the connection and authenticates the token.
 
-    Initializing the connection and authenticating the token.
+    Args:
+        group_token (str): The token for authentication.
 
+    Raises:
+        ValueError: If the token is not a string.
+
+        NameError: If the token is not valid.
+
+    Returns:
+        None: Prints a welcome message.
     """
 
     if type(group_token) == str:
@@ -36,7 +45,7 @@ def init(group_token):
 
     u.token = group_token
 
-    u.tickers = u.tickers + get_tickers()
+    u.tickers = u.tickers + get_all_tickers()
 
     url = u.url
 
