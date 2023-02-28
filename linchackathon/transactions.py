@@ -113,16 +113,14 @@ def cancel(order_id: Union[int, None] = None, ticker: Union[str, None] = None):
     if order_id is None and ticker is None:
         raise ValueError("""You must specify either an order_id or a ticker""")
 
-    params = {'api_key': u.token}
-
+    params = {}
     if order_id is not None:
         params['order_id'] = order_id
     else:
         params['ticker'] = ticker
 
-    url_s = u.url + '/cancel_order'
+    url_s = u.url + '/cancel'
+    body = {'api_key': u.token}
 
-    with requests.Session() as session:
-        response = session.post(url_s, params=params)
-
+    response = requests.put(url_s, params=params, json=body)
     return response.json()
