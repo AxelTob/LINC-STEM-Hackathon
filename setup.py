@@ -18,8 +18,8 @@ setup_requirements = []
 test_requirements = []
 
 setup(
-    author="Yasser Mahfoud",
-    author_email='yassermahfoud1995@gmail.com',
+    author="Yasser Mahfoud, Pontus Green, Axel Tobieson",
+    author_email='stem@linclund.com',
     python_requires='>=3.5',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -41,12 +41,12 @@ setup(
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='linchackathon',
-    name='linchackathon',
+    name='lincstem-hackathon',
     packages=find_packages(include=['linchackathon', 'linchackathon.*']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/YasserMahfoud/linchackathon',
-    version='0.1.4',
+    url='https://github.com/AxelTob/LINC-STEM-Hackathon',
+    version='0.1.5',
     zip_safe=False,
 )
