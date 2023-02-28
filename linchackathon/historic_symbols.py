@@ -86,7 +86,7 @@ def get_security_prices() -> pd.DataFrame:
 # Getting Multiple point data One ticker
 # =============================================================================
 
-def get_security_history(ticker=None, days_back=30) -> dict:
+def get_security_history(days_back: int, ticker: str = None) -> dict:
     """
     This function utilizes the getStock function and returns the history. It 
     requires the ticker and the ammount of days in the past. You can also
