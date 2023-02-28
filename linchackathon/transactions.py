@@ -82,14 +82,14 @@ def sell(ticker: str, amount: int, price: Union[int, None] = None, days_to_cance
     return _place_order('sell', ticker, amount, price, days_to_cancel)
 
 
-def stoploss(ticker: str, amount: int, price: Union[int, None] = None, days_to_cancel: int = 30):
+def stoploss(ticker: str, amount: int, price: float, days_to_cancel: int = 30):
     """
-    This function places a sell order for a given security.
+    This function places a stoploss order for a given security.
 
     Args:
         ticker (str): A security ticker (ex: STOCK1, STOCK2, etc.)
         amount (int): Number of shares
-        price (int, optional): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
+        price (float): The price for which you want the security to be under in order to buy. If not specified, the order will be placed at the current price. Defaults to None.
         days_to_cancel (int, optional): How many days you want this trade to stay active: e.g entering 30 means that trade will be held for 30 days and then cancelled if security price never reaches given price to buy. Defaults to None.
 
     Returns:
