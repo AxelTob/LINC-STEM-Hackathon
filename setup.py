@@ -13,7 +13,7 @@ with open('HISTORY.rst') as history_file:
 requirements = ['Click>=7.0', 'requests>=2.0.0',
                 'pandas>=0.25.3', 'numpy>=1.18.0']
 
-setup_requirements = []
+setup_requirements = ["setuptools>=42", "wheel"],
 
 test_requirements = []
 
@@ -47,6 +47,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/AxelTob/LINC-STEM-Hackathon',
-    version='0.1.5',
+    version='0.1.6',
     zip_safe=False,
 )
