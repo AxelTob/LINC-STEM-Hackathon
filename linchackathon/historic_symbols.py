@@ -53,13 +53,11 @@ def get_current_price(ticker: str = None) -> dict:
 
 def get_historical_data(days_back: int, ticker: str = None) -> dict:
     """
-    This function utilizes the getStock function and returns the history. It 
-    requires the ticker and the ammount of days in the past. You can also
-    insert 'all' in the ticker argument to get the history of all the stocks
-    instead of a specifc one.
+    This function gets historical data for tickers. If no ticker is specified it returns
+    for all tickers. Requires days_back as a parameter and maximum 1 year back.
 
         Args:
-            ticker : the ticker symbol or stock symbol (ex: AAPL for Apple)
+            ticker : the ticker symbol or stock symbol (ex: STOCK1, STOCK2)
             daysback : an integer specifying the number of days to scrape from
                        in the past
 
