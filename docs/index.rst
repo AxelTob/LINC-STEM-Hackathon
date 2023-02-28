@@ -12,6 +12,7 @@ Welcome to linchackathon's documentation!
    contributing
    authors
    history
+   functions
 
 Indices and tables
 ==================
