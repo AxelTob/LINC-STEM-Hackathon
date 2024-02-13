@@ -29,8 +29,8 @@ def _place_order(order_type: str, ticker: str, amount: int, price: Union[int, No
         dict: The response content from the server as a dictionary
     """
 
-    if not isinstance(amount, int) or (price is not None and not isinstance(price, int)) or (days_to_cancel is not None and not isinstance(days_to_cancel, int)):
-        raise ValueError("""The amount and price must be integers""")
+    if not isinstance(amount, int) or (days_to_cancel is not None and not isinstance(days_to_cancel, int)):
+        raise ValueError("""The amount and days must be integers""")
 
     params = {'type': order_type,
               'ticker': ticker,
