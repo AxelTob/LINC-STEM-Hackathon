@@ -64,13 +64,7 @@ def get_historical_data(days_back: int, ticker: str = None) -> dict:
         raise ValueError("""
         You have entered a negative value for days back, it must be psotive.
         """)
-    if ticker is not None and ticker not in u.tickers:
-        raise NameError("""
 
-                The Ticker you included is incorrect.
-                Check the Tickers available by running 'getTickers()'
-                
-                """)
     params = {'days_back': days_back}
     if ticker:
         params['ticker'] = ticker

@@ -5,7 +5,7 @@ Created on Sun Jan 24 19:10:18 2021
 @author: yasse
 """
 
-url = 'http://144.91.87.145/api'
+url = 'http://prodlincstemhackathon.azurewebsites.net/api'
 #url = 'http://localhost'
 token = ''
 tickers = []
